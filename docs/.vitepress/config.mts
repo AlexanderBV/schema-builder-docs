@@ -49,6 +49,7 @@ export default defineConfig({
       { text: 'Detalle', link: '/detail/overview', activeMatch: '/detail/' },
       { text: 'Laravel', link: '/laravel/has-dynamic-crud-schema', activeMatch: '/laravel/' },
       { text: 'Bridge', link: '/frontend/bridge-api-query-builder', activeMatch: '/frontend/' },
+      { text: '🤖 IA Skills', link: '/ai/skills', activeMatch: '/ai/' },
       { text: 'API', link: '/api/overview', activeMatch: '/api/' },
       {
         text: 'v1.0.0',
@@ -109,6 +110,12 @@ export default defineConfig({
         items: [
           { text: 'Integración con Cualquier Frontend (BootstrapVue, Vue, React)', link: '/frontend/integration' },
           { text: 'La Receta del Bridge (ApiQueryBuilder)', link: '/frontend/bridge-api-query-builder' }
+        ]
+      },
+      {
+        text: '🤖 Inteligencia Artificial',
+        items: [
+          { text: 'Skills & Reglas para Agentes', link: '/ai/skills' }
         ]
       },
       {
