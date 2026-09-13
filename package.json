@@ -1,0 +1,14 @@
+{
+  "name": "schema-builder-doc",
+  "version": "1.0.0",
+  "description": "Documentación oficial de Laravel SchemaBuilder (warrior/schema-builder)",
+  "type": "module",
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.3"
+  }
+}
