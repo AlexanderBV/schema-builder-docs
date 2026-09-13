@@ -1,6 +1,6 @@
 ---
-title: Agentes de IA & Skills (Cursor, Claude, Gemini, Antigravity)
-description: Suite oficial de skills, reglas e instrucciones para Agentes de IA (Cursor, Claude Code, Gemini CLI, Antigravity, Windsurf) para Laravel SchemaBuilder.
+title: Agentes de IA & Skills (Codex, Cursor, Claude, Gemini, Antigravity)
+description: Suite oficial de skills, reglas e instrucciones para Agentes de IA (OpenAI Codex, Cursor, Claude Code, Gemini CLI, Antigravity, Windsurf) para Laravel SchemaBuilder.
 ---
 
 # 🤖 Agentes de IA & Skills Oficiales
@@ -11,50 +11,90 @@ El paquete oficial [**`schema-builder-skills`**](https://github.com/AlexanderBV/
 
 ---
 
-## 📦 Repositorio Oficial
+## 📥 Opciones de Descarga e Integración
 
-El código fuente de las skills, suites de evaluación y reglas de contexto está disponible públicamente en GitHub:
+Elige el método que mejor se adapte a tu entorno de trabajo:
 
-👉 [**GitHub: AlexanderBV/schema-builder-skills**](https://github.com/AlexanderBV/schema-builder-skills)
+### Opción 1: Descarga Manual Directa (.ZIP)
+Si prefieres no usar Git ni la terminal para instalar las skills, puedes descargar el archivo comprimido directamente:
 
-```text
-schema-builder-skills/
-├── skills/
-│   └── schema-builder/
-│       ├── SKILL.md                  # Skill principal con frontmatter YAML
-│       ├── references/
-│       │   ├── fields-and-forms.md   # Catálogo de 15 campos, dynamicSelect, grid y validación
-│       │   ├── tables-and-formatters.md # Columnas, formateadores y pura introspección
-│       │   └── laravel-and-bridge.md # HasDynamicCrudSchema, Route::crud y puente ApiQueryBuilder
-│       └── examples/
-│           ├── UserSchema.php        # Esquema empresarial completo
-│           ├── UserController.php    # Controlador con validación y puente
-│           └── UserRequest.php       # FormRequest con extracción de reglas
-├── rules/
-│   ├── AGENTS.md                     # Estándar universal para agentes autónomos
-│   ├── CLAUDE.md                     # Instrucciones específicas para Claude Code
-│   └── .cursorrules                  # Reglas para Cursor IDE y Windsurf
-├── scripts/
-│   └── run-tests.sh                  # Runner de pruebas automatizadas
-└── tests/
-    ├── validate_skill.php            # Validador de consistencia y sintaxis PHP
-    └── evals/                        # Suite de evaluación con prompts y casos de prueba
+👉 [**📦 Descargar schema-builder-skills.zip (Última versión)**](https://github.com/AlexanderBV/schema-builder-skills/archive/refs/heads/main.zip)
+
+Descomprime el archivo y copia los archivos según el agente que utilices (revisa las secciones de abajo).
+
+---
+
+### Opción 2: Descarga Rápida con cURL (1 Solo Comando, sin clonar Git)
+
+Descarga directamente el archivo de configuración que necesitas en la raíz de tu proyecto Laravel:
+
+::: code-group
+```bash [OpenAI Codex (.codex)]
+mkdir -p .codex/schema-builder
+curl -sSL https://raw.githubusercontent.com/AlexanderBV/schema-builder-skills/main/skills/schema-builder/SKILL.md -o .codex/schema-builder/SKILL.md
+```
+
+```bash [Cursor & Windsurf (.cursorrules)]
+curl -sSL https://raw.githubusercontent.com/AlexanderBV/schema-builder-skills/main/rules/.cursorrules -o .cursorrules
+```
+
+```bash [Claude Code (CLAUDE.md)]
+curl -sSL https://raw.githubusercontent.com/AlexanderBV/schema-builder-skills/main/rules/CLAUDE.md -o CLAUDE.md
+```
+
+```bash [Estándar Universal (AGENTS.md)]
+curl -sSL https://raw.githubusercontent.com/AlexanderBV/schema-builder-skills/main/rules/AGENTS.md -o AGENTS.md
+```
+:::
+
+---
+
+### Opción 3: Clonar el Repositorio de Skills
+
+```bash
+git clone https://github.com/AlexanderBV/schema-builder-skills.git
 ```
 
 ---
 
-## 🚀 Guía de Instalación Rápida
+## 🛠️ Guía de Integración por Herramienta de IA
 
-### 1. Google Gemini CLI / Google Antigravity
+### 1. OpenAI Codex (`.codex/`)
+
+Si tu proyecto o flujo de trabajo utiliza la CLI de OpenAI Codex o la convención de carpeta `.codex/`:
+
+1. Crea la carpeta de la skill dentro de tu proyecto Laravel:
+   ```bash
+   mkdir -p .codex/schema-builder
+   ```
+2. Descarga o copia `SKILL.md` dentro de ella:
+   ```bash
+   curl -sSL https://raw.githubusercontent.com/AlexanderBV/schema-builder-skills/main/skills/schema-builder/SKILL.md -o .codex/schema-builder/SKILL.md
+   ```
+3. O si descargaste el ZIP, simplemente arrastra la carpeta `skills/schema-builder/` a `.codex/schema-builder/`.
+
+Codex indexará automáticamente la skill y podrá ejecutar:
+```bash
+# Crear un nuevo esquema con el scaffold oficial:
+php artisan make:schema ClientSchema --model=Client
+
+# Inspeccionar el esquema en la terminal:
+php artisan schema:inspect "App\Schemas\ClientSchema"
+```
+
+---
+
+### 2. Google Gemini CLI / Google Antigravity
 
 Si utilizas el ecosistema de agentes de Google (Gemini Code Assist, Antigravity CLI o extensiones de terminal):
 
 ::: code-group
 ```bash [Global (Recomendado)]
 # Clona e instala la skill globalmente en tu máquina:
-git clone https://github.com/AlexanderBV/schema-builder-skills.git /tmp/schema-builder-skills
 mkdir -p ~/.gemini/config/skills
-cp -r /tmp/schema-builder-skills/skills/schema-builder ~/.gemini/config/skills/
+git clone https://github.com/AlexanderBV/schema-builder-skills.git /tmp/sb-skills
+cp -r /tmp/sb-skills/skills/schema-builder ~/.gemini/config/skills/
+rm -rf /tmp/sb-skills
 ```
 
 ```bash [Por Proyecto]
@@ -68,7 +108,7 @@ A partir de este momento, el agente activará automáticamente la skill cuando s
 
 ---
 
-### 2. Cursor IDE & Windsurf
+### 3. Cursor IDE & Windsurf
 
 Para que Cursor o Windsurf apliquen siempre las convenciones correctas al generar código en tu proyecto:
 
@@ -83,7 +123,7 @@ O agrégalo a tu archivo existente `.cursorrules` o `.windsurfrules`.
 
 ---
 
-### 3. Claude Code / Anthropic CLI
+### 4. Claude Code / Anthropic CLI
 
 Para usuarios de Claude Code en terminal:
 
@@ -101,13 +141,51 @@ Claude Code leerá automáticamente las directivas y generará código respetand
 
 ---
 
-### 4. GitHub Copilot & Agentes Universales (`AGENTS.md`)
+### 5. Integración Manual: Copiar y Pegar Prompt del Sistema
 
-El archivo [`AGENTS.md`](https://github.com/AlexanderBV/schema-builder-skills/blob/main/rules/AGENTS.md) sigue el estándar universal de contexto para LLMs:
+Si utilizas la interfaz web de **ChatGPT**, **Claude.ai**, **GitHub Copilot Chat** o las Instrucciones Personalizadas (Custom Instructions) de tu IDE, copia y pega el siguiente bloque de directivas maestras:
 
-```bash
-curl -o AGENTS.md https://raw.githubusercontent.com/AlexanderBV/schema-builder-skills/main/rules/AGENTS.md
+::: details 📋 Haz clic aquí para copiar el Prompt de Instrucciones Personalizadas
+```text
+Eres un ingeniero experto en Laravel especializado en la librería oficial "warrior/schema-builder".
+Sigue siempre las siguientes reglas de arquitectura y diseño:
+
+1. ESQUEMAS UNIFICADOS:
+   - Todo esquema debe extender Warrior\SchemaBuilder\Schema e implementar table() y form() (y opcionalmente detail()).
+   - Los esquemas se ubican en app/Schemas/ y actúan como única fuente de la verdad para tablas, formularios y validación.
+
+2. MOTOR DE FORMULARIOS:
+   - Usa los métodos fábrica de Field:: (Field::text, Field::email, Field::password, Field::number, Field::textarea, Field::select, Field::dynamicSelect, Field::radio, Field::checkbox, Field::switch, Field::date, Field::datetime, Field::file, Field::color, Field::hidden).
+   - Para selects remotos o en cascada, usa siempre Field::dynamicSelect('field', 'Label')->endpoint('/url')->dependsOn('parent_field')->queryParams([...]).
+   - Aplica el grid de 12 columnas con ->colSpan(1..12).
+   - Para visibilidad reactiva usa ->visibleWhen('campo', 'valor') o ->visibleWhen('campo', 'in', [...]).
+   - Asigna reglas con ->rules([...]) o ->required().
+
+3. MOTOR DE TABLAS:
+   - Declara columnas con Column::make('campo', 'Label').
+   - Formateadores visuales disponibles: AvatarFormatter, BadgeFormatter, CurrencyFormatter, DateFormatter, DateTimeFormatter, NumberFormatter, BooleanFormatter, LinkFormatter, CustomFormatter.
+   - Las cabeceras fijas vienen habilitadas por defecto (fixedHeader = true).
+   - Configura ->striped(), ->hover(), ->bordered(), ->pagination(15), ->tabs([...]), ->softDeletes().
+
+4. CONTROLADORES:
+   - Usa el trait Warrior\SchemaBuilder\Traits\HasDynamicCrudSchema.
+   - Declara: protected string $schemaClass = TuSchema::class;
+   - En store() y update() valida con $this->validateWithSchema($request, $id, additionalRules: [...]).
+   - Esto expone automáticamente los endpoints /schema y /schema/ui.
+
+5. SINERGIA CON API QUERY BUILDER:
+   - No dupliques filtros ni ordenamientos. Usa introspección pura:
+     $table = (new TuSchema())->table();
+     TuModelo::apiQuery($request)
+         ->allowedSorts($table->getAllowedSorts())
+         ->allowedFilters($table->getAllowedFilters())
+         ->allowedSearch($table->getAllowedSearch())
+         ->response();
+
+6. RUTAS:
+   - Registra CRUD y esquemas en una sola línea: Route::crud('/recurso', RecursoController::class);
 ```
+:::
 
 ---
 
