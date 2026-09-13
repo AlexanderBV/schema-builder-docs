@@ -16,10 +16,16 @@ hero:
       text: Catálogo de 15 Campos 📝
       link: /forms/field-catalog
     - theme: alt
+      text: 🤖 Skills para IA
+      link: /ai/skills
+    - theme: alt
       text: Ver en GitHub 📦
       link: https://github.com/AlexanderBV/schema-builder
 
 features:
+  - icon: 🤖
+    title: AI Agent Skills & Rules Oficiales
+    details: Incluye skills y directivas listas para Cursor, Claude Code, Gemini y Antigravity. Pídele a tu asistente de IA que genere schemas, tablas y controladores sin errores.
   - icon: 🚀
     title: De 500 líneas dispersas a 1 Schema Único
     details: Define tus columnas, inputs, pestañas, acciones y validaciones en un único archivo PHP fluido. La única fuente de verdad para todo tu stack.
