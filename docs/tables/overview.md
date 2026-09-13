@@ -15,7 +15,7 @@ use Warrior\SchemaBuilder\Enums\PaginationPosition;
 $table = TableSchema::make('users-table', 'Directorio de Empleados')
     ->subtitle('Consulta y administración de personal')
     ->endpoint('/api/v1/users')
-    ->fixedHeader(true)                 // Encabezado fijo al hacer scroll
+    ->fixedHeader()                     // Encabezado fijo durante scroll (activo por defecto: true)
     ->height(null)                      // Altura fija (opcional)
     ->maxHeight('600px')                // Altura máxima sugerida
     ->selectable(true, 'id')            // Habilita checkboxes con clave primaria 'id'
@@ -44,7 +44,7 @@ $table = TableSchema::make('users-table', 'Directorio de Empleados')
 | Método | Tipo / Parámetros | Descripción |
 | :--- | :--- | :--- |
 | `endpoint(string $url)` | `string` | URL base para la consulta de datos en servidor. |
-| `fixedHeader(bool $fixed = true)` | `bool` | Mantiene los títulos de columna visibles durante el scroll. |
+| `fixedHeader(bool $fixed = true)` | `bool` | Mantiene las cabeceras de columna visibles durante el scroll vertical (**activo por defecto en true**). Pasa false si deseas desactivarlo. |
 | `maxHeight(?string $height)` | `string` | Define la altura máxima de la tabla (ej. `'500px'`). |
 | `selectable(bool $enabled = true, string $key = 'id')` | `bool, string` | Habilita checkboxes para selección masiva. |
 | `tabs(array $tabs)` | `array<TableTab>` | Pestañas contextuales de segmentación de datos. |
