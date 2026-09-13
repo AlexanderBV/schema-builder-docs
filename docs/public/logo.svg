@@ -1,8 +1,130 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#7367F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <rect x="3" y="3" width="18" height="18" rx="3" stroke="#7367F0" fill="#7367F0" fill-opacity="0.1" />
-  <path d="M3 9h18" />
-  <path d="M9 21V9" />
-  <circle cx="6" cy="6" r="1" fill="#7367F0" />
-  <path d="M13 14l3-3 2 2 3-3" stroke="#28C76F" stroke-width="2" />
-  <polygon points="13 14 17 14 17 10 13 14" fill="#28C76F" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" fill="none">
+  <defs>
+    <!-- Gradientes Principales -->
+    <linearGradient id="primaryGrad" x1="16" y1="16" x2="112" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="50%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#EC4899" />
+    </linearGradient>
+
+    <linearGradient id="tableHeaderGrad" x1="68" y1="44" x2="114" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+
+    <linearGradient id="formFocusGrad" x1="14" y1="36" x2="60" y2="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#6366F1" />
+    </linearGradient>
+
+    <linearGradient id="badgeGrad" x1="90" y1="84" x2="110" y2="84" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Filtro de Sombra Suave -->
+    <filter id="softGlow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#6366F1" flood-opacity="0.3" />
+    </filter>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0F172A" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Contenedor Base / Placa Blueprint Central -->
+  <rect x="10" y="10" width="108" height="108" rx="26" fill="url(#primaryGrad)" filter="url(#softGlow)" />
+  <rect x="11" y="11" width="106" height="106" rx="25" fill="#0F172A" fill-opacity="0.94" stroke="#818CF8" stroke-width="1.5" stroke-opacity="0.4" />
+
+  <!-- ============================================== -->
+  <!-- LADO IZQUIERDO: EL MOTOR DE FORMULARIOS (Inputs) -->
+  <!-- ============================================== -->
+  <g id="form-engine" filter="url(#cardShadow)">
+    <!-- Tarjeta del Formulario -->
+    <rect x="18" y="22" width="42" height="84" rx="10" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Mini Header Formulario -->
+    <circle cx="25" cy="29" r="2.5" fill="#EF4444" />
+    <circle cx="32" cy="29" r="2.5" fill="#F59E0B" />
+    <circle cx="39" cy="29" r="2.5" fill="#10B981" />
+    <line x1="18" y1="36" x2="60" y2="36" stroke="#334155" stroke-width="1" />
+
+    <!-- Campo 1: Input de Texto Enfocado -->
+    <rect x="23" y="42" width="32" height="12" rx="4" fill="#0F172A" stroke="url(#formFocusGrad)" stroke-width="1.5" />
+    <line x1="27" y1="48" x2="39" y2="48" stroke="#E2E8F0" stroke-width="2" stroke-linecap="round" />
+    <!-- Cursor parpadeante -->
+    <line x1="42" y1="45" x2="42" y2="51" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" />
+
+    <!-- Campo 2: Input Select con flechita -->
+    <rect x="23" y="59" width="32" height="12" rx="4" fill="#0F172A" stroke="#475569" stroke-width="1" />
+    <line x1="27" y1="65" x2="35" y2="65" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" />
+    <!-- Icono Chevron Down -->
+    <path d="M48 63.5 L50.5 66 L53 63.5" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Campo 3: Switch Toggle Activado -->
+    <rect x="23" y="77" width="18" height="10" rx="5" fill="#6366F1" />
+    <circle cx="34" cy="82" r="3.5" fill="#FFFFFF" />
+    <line x1="46" y1="82" x2="52" y2="82" stroke="#64748B" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Botón Submit Primario -->
+    <rect x="23" y="93" width="32" height="7" rx="3.5" fill="url(#primaryGrad)" />
+    <line x1="33" y1="96.5" x2="45" y2="96.5" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" />
+  </g>
+
+  <!-- ============================================== -->
+  <!-- LADO DERECHO: EL MOTOR DE TABLAS (Data Grid)   -->
+  <!-- ============================================== -->
+  <g id="table-engine" filter="url(#cardShadow)">
+    <!-- Tarjeta de la Tabla -->
+    <rect x="68" y="22" width="42" height="84" rx="10" fill="#1E293B" stroke="#334155" stroke-width="1.2" />
+    
+    <!-- Barra de búsqueda superior en tabla -->
+    <rect x="73" y="27" width="22" height="6" rx="3" fill="#0F172A" stroke="#334155" stroke-width="0.8" />
+    <circle cx="76" cy="30" r="1.5" stroke="#64748B" stroke-width="0.8" />
+    <!-- Botón acción / filtro -->
+    <rect x="99" y="27" width="6" height="6" rx="2" fill="#3B82F6" />
+
+    <!-- Cabecera de Tabla con Sort -->
+    <rect x="73" y="37" width="32" height="9" rx="2.5" fill="url(#tableHeaderGrad)" />
+    <line x1="77" y1="41.5" x2="88" y2="41.5" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" />
+    <!-- Flechas de Sort asc/desc -->
+    <path d="M100 40 L102 38 L104 40" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M100 43 L102 45 L104 43" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- Fila 1: Avatar + Texto + Check -->
+    <circle cx="77" cy="53" r="3" fill="#818CF8" />
+    <line x1="83" y1="53" x2="94" y2="53" stroke="#CBD5E1" stroke-width="1.8" stroke-linecap="round" />
+    <circle cx="101" cy="53" r="2" fill="#10B981" />
+    <line x1="73" y1="59" x2="105" y2="59" stroke="#334155" stroke-width="0.8" />
+
+    <!-- Fila 2: Avatar + Texto + Badge -->
+    <circle cx="77" cy="66" r="3" fill="#EC4899" />
+    <line x1="83" y1="66" x2="91" y2="66" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round" />
+    <!-- Badge Verde -->
+    <rect x="95" y="63" width="9" height="5" rx="2.5" fill="url(#badgeGrad)" />
+    <line x1="73" y1="72" x2="105" y2="72" stroke="#334155" stroke-width="0.8" />
+
+    <!-- Fila 3: Avatar + Texto + Currency -->
+    <circle cx="77" cy="79" r="3" fill="#06B6D4" />
+    <line x1="83" y1="79" x2="95" y2="79" stroke="#CBD5E1" stroke-width="1.8" stroke-linecap="round" />
+    <rect x="97" y="77" width="7" height="4" rx="2" fill="#F59E0B" />
+    <line x1="73" y1="85" x2="105" y2="85" stroke="#334155" stroke-width="0.8" />
+
+    <!-- Footer Paginación -->
+    <circle cx="77" cy="94" r="2" fill="#64748B" />
+    <line x1="82" y1="94" x2="92" y2="94" stroke="#475569" stroke-width="1.5" stroke-linecap="round" />
+    <path d="M98 92.5 L96 94 L98 95.5" stroke="#64748B" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M101 92.5 L103 94 L101 95.5" stroke="#64748B" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- ============================================== -->
+  <!-- NODO CENTRAL CONECTOR: EL ESQUEMA (Blueprint)  -->
+  <!-- ============================================== -->
+  <g id="schema-core">
+    <!-- Conexión fluida de datos entre formulario y tabla -->
+    <path d="M57 64 C 63 64, 63 64, 69 64" stroke="#818CF8" stroke-width="2.5" stroke-dasharray="2 2" />
+    <!-- Rombo / Gem central de Sincronización -->
+    <rect x="58" y="58" width="12" height="12" rx="3" transform="rotate(45 64 64)" fill="url(#primaryGrad)" stroke="#FFFFFF" stroke-width="1.5" />
+    <!-- Símbolo de código dentro del rombo -->
+    <path d="M62 64 L63.5 62.5 M66 64 L64.5 65.5" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
 </svg>

@@ -181,18 +181,48 @@ Route::prefix('v1')->group(function () {
 
 ---
 
-## Paso 4: Renderiza en el Frontend (Vuexy / Vue 3)
+## Paso 4: Renderiza en Cualquier Frontend (BootstrapVue, Vue 3, React, etc.)
 
-En tu página de Vue:
+El endpoint `/api/v1/products/schema` entrega la especificación JSON completa. Tu frontend no necesita codificar campos a mano ni sincronizar validaciones:
+
+### Opción A: Con un Componente CRUD Dinámico
+Si cuentas con un componente genérico de CRUD:
 
 ```vue
-<script setup>
-import { CrudComponent } from '@/components/dynamic-table'
-</script>
-
+<!-- En Vue 3 / BootstrapVue / React -->
 <template>
-  <CrudComponent schema-url="/api/v1/products/schema" />
+  <DynamicCrud resource="/api/v1/products" />
 </template>
 ```
 
-🎉 **¡Listo!** En menos de 5 minutos tienes una tabla con paginación en servidor, filtros en Drawer, búsqueda, modal de creación en pestañas, edición parcial PATCH y eliminación con confirmación accesible.
+### Opción B: Consumiendo el Schema en tus Componentes Favoritos
+O puedes consultar el schema con `axios` o `fetch` y mapearlo directamente a tus componentes de UI (por ejemplo, **BootstrapVue**):
+
+```vue
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+const schema = ref(null);
+const products = ref([]);
+
+onMounted(async () => {
+  // 1. Obtiene la definición de columnas, filtros y formulario
+  const { data } = await axios.get('/api/v1/products/schema');
+  schema.value = data;
+
+  // 2. Carga los registros paginados
+  const res = await axios.get('/api/v1/products');
+  products.value = res.data.data;
+});
+</script>
+
+<template>
+  <div v-if="schema">
+    <!-- Las columnas, labels y ordenamientos provienen directamente del backend -->
+    <b-table :items="products" :fields="schema.table.columns" responsive hover />
+  </div>
+</template>
+```
+
+🎉 **¡Listo!** En menos de 5 minutos tienes una solución completa con paginación en servidor, filtros dinámicos, búsqueda global, modales con validaciones, actualización parcial PATCH y papelera de reciclaje.

@@ -109,13 +109,20 @@ public function store(Request $request): JsonResponse
 }
 
 /**
- * 2. Edición con Dirty Tracking (PATCH / PUT)
+ * 2. Edición con Dirty Tracking (PATCH / PUT) e inyección de reglas custom
  */
 public function update(Request $request, User $user): JsonResponse
 {
     // isUpdate = true: Convierte 'required' en 'sometimes|required'
-    // permitiendo enviar únicamente los campos modificados
-    $validated = $this->validateWithSchema($request, isUpdate: true);
+    // additionalRules: Permite inyectar o sobreescribir reglas complejas (ej. ignore del ID)
+    $validated = $this->validateWithSchema(
+        request: $request,
+        isUpdate: true,
+        additionalRules: [
+            'email' => ['sometimes', Rule::unique('users', 'email')->ignore($user->id)],
+            'avatar' => ['nullable', 'image', 'max:2048'],
+        ]
+    );
 
     $user->update($validated);
 

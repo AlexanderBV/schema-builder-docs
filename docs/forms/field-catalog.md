@@ -90,9 +90,11 @@ Field::textarea('bio', 'Biografía Profesional')
 
 ---
 
-### 6. `Field::select()` - Menú Desplegable (Select)
-Selector con soporte para selección múltiple, formato en pastillas (chips) y autocompletado reactivo.
+### 6. `Field::select()` & `Field::dynamicSelect()` - Menús Desplegables
 
+SchemaBuilder soporta tanto opciones estáticas fijas en código como **catálogos dinámicos remotos** que consultan la base de datos vía API:
+
+#### A) Opciones Estáticas en Código
 ```php
 Field::select('department_id', 'Departamento')
     ->options([
@@ -108,6 +110,53 @@ Field::select('department_id', 'Departamento')
 
 > [!TIP]
 > También puedes encadenar opciones individuales mediante `->option('Tecnología', 1)`.
+
+#### B) Opciones Dinámicas desde Endpoint Remoto (Base de Datos)
+Para catálogos que provienen de base de datos (clientes, almacenes, categorías), utiliza `Field::dynamicSelect()` o `->fromEndpoint()`:
+
+```php
+// Consulta automáticamente GET /api/v1/departments
+Field::dynamicSelect('department_id', 'Departamento', '/api/v1/departments')
+    ->autocomplete()
+    ->required();
+```
+
+#### C) Selects en Cascada Dependientes (`dependsOn`)
+¿Necesitas que un selector de ciudades se filtre reactivamente según el departamento seleccionado? Usa `->dependsOn()`:
+
+```php
+// 1. Selector padre:
+Field::dynamicSelect('department_id', 'Departamento', '/api/v1/departments')
+    ->autocomplete()
+    ->required()
+    ->cols(6),
+
+// 2. Selector hijo dependiente en cascada:
+// Cuando department_id cambie, consultará /api/v1/cities?department_id={VALOR}
+Field::dynamicSelect('city_id', 'Ciudad', '/api/v1/cities')
+    ->dependsOn('department_id')
+    ->queryParams(['status' => 'active'])
+    ->autocomplete()
+    ->required()
+    ->cols(6);
+```
+
+En la salida JSON, esto genera una clave `optionsSource` estandarizada:
+```json
+{
+  "name": "city_id",
+  "type": "select",
+  "optionsSource": {
+    "type": "api",
+    "endpoint": "/api/v1/cities",
+    "dependOnField": "department_id",
+    "paramKey": "department_id",
+    "method": "GET",
+    "queryParams": { "status": "active" }
+  }
+}
+```
+Cualquier frontend moderno detecta esta especificación y gestiona las llamadas HTTP, el caché y el reseteo automático de dependencias.
 
 ---
 

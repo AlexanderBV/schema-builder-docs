@@ -171,3 +171,126 @@ class UserController extends Controller
 > ```php
 > $validated = $this->validateWithSchema($request, isUpdate: true);
 > ```
+
+---
+
+## 🚀 Validaciones Custom y Clases `FormRequest` Dedicadas
+
+Una pregunta frecuente es: *¿Qué ocurre si mi proyecto ya utiliza clases `FormRequest` (como `ClientRequest`) o necesito inyectar reglas complejas que dependen del ID de la ruta o de la base de datos?*
+
+**SchemaBuilder está diseñado para darte control total sin imponer restricciones.** Soporta 3 patrones de integración según las necesidades de tu arquitectura:
+
+---
+
+### Patrón 1: Usando una Clase `FormRequest` Dedicada (`ClientRequest`)
+
+Si tu equipo prefiere o tus estándares exigen archivos `FormRequest` separados, puedes reutilizar las reglas de tu `FormSchema` dentro del método `rules()` de tu FormRequest y combinarlas con `array_merge`:
+
+```php
+namespace App\Http\Requests;
+
+use App\Schemas\ClientSchema;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class ClientRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        $isUpdate = $this->isMethod('patch') || $this->isMethod('put');
+        $clientId = $this->route('client')?->id ?? $this->route('id');
+
+        // 1. Extrae las reglas base compiladas del FormSchema
+        $schemaRules = ClientSchema::form()->toValidationRules(isUpdate: $isUpdate);
+
+        // 2. Combina o sobreescribe con reglas complejas específicas del request:
+        return array_merge($schemaRules, [
+            'tax_id' => [
+                $isUpdate ? 'sometimes' : 'required',
+                'string',
+                Rule::unique('clients', 'tax_id')->ignore($clientId),
+            ],
+            'contract_file' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
+        ]);
+    }
+
+    public function messages(): array
+    {
+        return [
+            'tax_id.unique' => 'El número de identificación fiscal ya pertenece a otro cliente registrado.',
+        ];
+    }
+}
+```
+
+En tu controlador, inyectas tu `ClientRequest` con inyección de dependencias como siempre:
+
+```php
+public function update(ClientRequest $request, Client $client): JsonResponse
+{
+    $client->update($request->validated());
+
+    return response()->json($client);
+}
+```
+
+---
+
+### Patrón 2: Inyección de Reglas Adicionales en `validateWithSchema()`
+
+Si utilizas el trait [`HasDynamicCrudSchema`](/laravel/has-dynamic-crud-schema) en tu controlador, el método `validateWithSchema` acepta el parámetro `$additionalRules`, `$messages` y `$customAttributes`:
+
+```php
+public function update(Request $request, Client $client): JsonResponse
+{
+    // Inyecta reglas específicas para este endpoint sin crear un FormRequest:
+    $validated = $this->validateWithSchema(
+        request: $request,
+        isUpdate: true,
+        additionalRules: [
+            'tax_id' => ['sometimes', Rule::unique('clients', 'tax_id')->ignore($client->id)],
+            'credit_limit' => ['numeric', 'max:50000'],
+        ],
+        messages: [
+            'credit_limit.max' => 'La línea de crédito aprobada no puede superar los $50,000.',
+        ]
+    );
+
+    $client->update($validated);
+
+    return response()->json($client);
+}
+```
+
+---
+
+### Patrón 3: Inyección Dinámica en Caliente en el `FormSchema`
+
+También puedes modificar o enriquecer las reglas directamente sobre la instancia del esquema mediante `addValidationRule()` o `mergeValidationRules()`:
+
+```php
+public function update(Request $request, Client $client): JsonResponse
+{
+    $schema = ClientSchema::form()
+        ->addValidationRule('tax_id', Rule::unique('clients', 'tax_id')->ignore($client->id))
+        ->addValidationRule('avatar', ['nullable', 'image', 'dimensions:min_width=200']);
+
+    $validated = $request->validate($schema->toValidationRules(isUpdate: true));
+
+    $client->update($validated);
+
+    return response()->json($client);
+}
+```
+
+---
+
+## 🏆 Resumen: Lo Mejor de Dos Mundos
+
+- **Para el 90% de las pantallas**: Describes tu formulario una sola vez en PHP y tienes validación de creación, edición parcial (PATCH) y frontend resueltos en minutos.
+- **Para el 10% de casos ultra-complejos**: Dispones del 100% de la flexibilidad de Laravel (`FormRequest`, `Rule::unique()->ignore()`, Closures de validación, reglas de archivos y mensajes personalizados). **Nunca estás atrapado ni limitado por la librería.**

@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   base: '/schema-builder-docs/',
   title: 'Laravel SchemaBuilder',
-  description: 'Constructor declarativo, headless y desacoplado de esquemas para tablas, formularios y CRUDs dinámicos en Laravel',
+  description: 'Construye formularios y tablas en 5 minutos con esquemas declarativos en Laravel para cualquier frontend',
   lang: 'es-ES',
   lastUpdated: true,
   cleanUrls: true,
@@ -107,7 +107,7 @@ export default defineConfig({
       {
         text: '🧩 Frontend & Sinergia',
         items: [
-          { text: 'Ecosistema Vuexy & Frontend Agnostic', link: '/frontend/vuexy-integration' },
+          { text: 'Integración con Cualquier Frontend (BootstrapVue, Vue, React)', link: '/frontend/integration' },
           { text: 'La Receta del Bridge (ApiQueryBuilder)', link: '/frontend/bridge-api-query-builder' }
         ]
       },

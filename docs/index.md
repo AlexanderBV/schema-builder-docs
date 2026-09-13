@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: "Laravel SchemaBuilder"
-  text: "Esquemas Headless y Declarativos para CRUDs"
-  tagline: "Despídete de duplicar campos entre migraciones, FormRequests, controladores y componentes de Vue/React. Diseña tu entidad en un único archivo Schema fluido en PHP y genera tablas, formularios y APIs listas para producción en menos de 5 minutos."
+  text: "Construye Formularios y Tablas en 5 Minutos"
+  tagline: "Construye formularios interactivos, tablas dinámicas y validaciones seguras en 5 minutos sin duplicar código ni pelear con validaciones. Diseña tu entidad en un único archivo Schema fluido en PHP y genera la API y especificaciones listas para cualquier frontend (BootstrapVue, Vue 3, React o Blade)."
   image:
     src: /logo.svg
     alt: Laravel SchemaBuilder
@@ -31,7 +31,7 @@ features:
     details: Columnas visuales formateadas (avatars, badges, monedas, fechas), filtros en drawer lateral, búsqueda en vivo, cabeceras fijas, selección masiva y Soft Deletes.
   - icon: 🧩
     title: 100% Agnóstico al Frontend
-    details: Genera un contrato JSON limpio y estandarizado (SPEC-002) que alimenta directamente el ecosistema Vuexy, componentes de React, Svelte o apps móviles.
+    details: Genera un contrato JSON limpio y estandarizado (SPEC-002) que alimenta directamente tus componentes dinámicos en BootstrapVue, Vue 3, React, Svelte o Blade.
   - icon: ⚡
     title: Cero Dependencias Obligatorias
     details: No te ata a ningún ORM ni Query Builder específico. Provee introspección pura (getAllowedSorts, getAllowedFilters) compatible con cualquier motor.
@@ -123,7 +123,7 @@ Route::prefix('v1')->group(function () {
 });
 ```
 
-```vue [4. En el Frontend (Vuexy / React / Vue 3)]
+```vue [4. En el Frontend (BootstrapVue / Vue 3 / React)]
 <!-- resources/js/pages/users.vue -->
 <script setup>
 import { CrudComponent } from '@/components/dynamic-table'

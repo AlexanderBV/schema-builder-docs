@@ -22,7 +22,7 @@ En el ciclo tradicional de desarrollo de software empresarial, crear una nueva e
 
 ## 💡 La Solución: Schema Único como Fuente de la Verdad
 
-**Laravel SchemaBuilder** introduce el concepto de **Esquema Unificado y Headless**:
+**Laravel SchemaBuilder** introduce el concepto de **Esquema Unificado Declarativo**:
 
 ```
                          ┌─────────────────────────────┐
@@ -46,7 +46,7 @@ En el ciclo tradicional de desarrollo de software empresarial, crear una nueva e
                                         ▼
                          ┌─────────────────────────────┐
                          │      Frontend UI Engine     │
-                         │  (<CrudComponent />, Vuexy, │
+                         │  (BootstrapVue, Vue 3,      │
                          │   React, Flutter, Svelte)   │
                          └─────────────────────────────┘
 ```
